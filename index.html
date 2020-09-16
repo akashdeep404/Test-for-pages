@@ -1,46 +1,35 @@
-<!--
-Description: The following is the example code to use recaptcha.
-Notice: The function backend_API_challenge is the concept and you should implement it on the backend.
-        Especially, you must keep your secret key in private all the time.
-Flow:
-1. Click the submit button.
-2. On the console, execute backend_API_challenge function.
--->
 <html>
-<head>
-  <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
-  <script src='https://www.google.com/recaptcha/api.js' async defer></script>
-</head>
-<body>
-<form>
-  <input type="text"></input>
-  <div class="g-recaptcha" data-sitekey="(6LeMI80ZAAAAAIx5aay8_um5JQ9-6aKv4BmmYL-B)"></div>
-  <input type="button" onclick="checkRecaptcha();" value="submit"></input>
-</form>
-<script> 
-function checkRecaptcha() {
+  <head>
+    <title>reCaptcha validation demo</title>
+     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+  </head>
+  <body>
+<div class="form_container">
+  <form action="#" id="my_captcha_form">
+    <div class="g-recaptcha" 
+data-sitekey="6LeMI80ZAAAAAIx5aay8_um5JQ9-6aKv4BmmYL-B" 
+></div>
+    <p>
+    <button type="submit" >Submit</button>
+    </p>
+  </form>
+</div>
+<script>
+  document.getElementById("my_captcha_form").addEventListener("submit",function(evt)
+  {
+  
   var response = grecaptcha.getResponse();
-  if(response.length == 0) { 
+  if(response.length == 0) 
+  { 
     //reCaptcha not verified
-    alert("no pass"); 
+    alert("please verify you are humann!"); 
+    evt.preventDefault();
+    return false;
   }
-  else { 
-    //reCaptch verified
-    alert("pass"); 
-  }
-}
-
-// implement on the backend
-function backend_API_challenge() {
-    var response = grecaptcha.getResponse();
-    $.ajax({
-        type: "POST",
-        url: 'https://www.google.com/recaptcha/api/siteverify',
-        data: {"secret" : "(6LeMI80ZAAAAAEw-nANiuygohPoGaFWBUHoPk0l0)", "response" : response, "remoteip":"localhost"},
-        contentType: 'application/x-www-form-urlencoded',
-        success: function(data) { console.log(data); }
-    });
-}
+  //captcha verified
+  //do the rest of your validations here
+  
+});
 </script>
 </body>
-</html
+</html>
